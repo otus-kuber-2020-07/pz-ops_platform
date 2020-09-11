@@ -1,11 +1,10 @@
----
 apiVersion: v1
 kind: Service
 metadata:
   name: metallb-svc-tcp
   namespace: metallb-system
   annotations:
-    metallb.universe.tf/allow-shared-ip: "true"
+    metallb.universe.tf/allow-shared-ip: metallb
     # metallb.universe.tf/allow-mixed-protocol: "true" #:(
 spec:
   type: LoadBalancer
@@ -25,7 +24,7 @@ metadata:
   name: metallb-svc-udp
   namespace: metallb-system
   annotations:
-    metallb.universe.tf/allow-shared-ip: "true"
+    metallb.universe.tf/allow-shared-ip: metallb
     # metallb.universe.tf/allow-mixed-protocol: "true" #:(
 spec:
   type: LoadBalancer
