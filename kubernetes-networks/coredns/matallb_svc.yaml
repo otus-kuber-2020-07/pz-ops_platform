@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: metallb-svc-tcp
-  namespace: metallb-system
+  namespace: kube-system
   annotations:
     metallb.universe.tf/allow-shared-ip: coredns
     # metallb.universe.tf/allow-mixed-protocol: "true" #:(
@@ -22,7 +22,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: metallb-svc-udp
-  namespace: metallb-system
+  namespace: kube-system
   annotations:
     metallb.universe.tf/allow-shared-ip: coredns
     # metallb.universe.tf/allow-mixed-protocol: "true" #:(
