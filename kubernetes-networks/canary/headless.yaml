@@ -4,10 +4,10 @@ metadata:
   name: web-svc
   namespace: canary
 spec:
-  selector:
-    app: web
   type: ClusterIP
   clusterIP: None
+  selector:
+    app: web
   ports:
     - protocol: TCP
       port: 80

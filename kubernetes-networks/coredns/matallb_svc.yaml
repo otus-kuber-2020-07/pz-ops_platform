@@ -5,7 +5,7 @@ metadata:
   name: metallb-svc-tcp
   annotations:
     metallb.universe.tf/allow-shared-ip: "true"
-    metallb.universe.tf/allow-mixed-protocol: "true" #:(
+    # metallb.universe.tf/allow-mixed-protocol: "true" #:(
 spec:
   type: LoadBalancer
   loadBalancerIP: 172.17.255.10
@@ -24,7 +24,7 @@ metadata:
   name: metallb-svc-udp
   annotations:
     metallb.universe.tf/allow-shared-ip: "true"
-    metallb.universe.tf/allow-mixed-protocol: "true" #:(
+    # metallb.universe.tf/allow-mixed-protocol: "true" #:(
 spec:
   type: LoadBalancer
   loadBalancerIP: 172.17.255.10
