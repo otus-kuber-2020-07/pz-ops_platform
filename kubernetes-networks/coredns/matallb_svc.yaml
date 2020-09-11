@@ -28,6 +28,7 @@ metadata:
     # metallb.universe.tf/allow-mixed-protocol: "true" #:(
 spec:
   type: LoadBalancer
+  loadBalancerIP: 172.17.255.10
   selector:
     k8s-app: kube-dns
   ports:
