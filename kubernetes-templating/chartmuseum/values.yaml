@@ -4,7 +4,7 @@ ingress:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    cert-manager.io/acme-challenge-type: http01
+    # cert-manager.io/acme-challenge-type: http01           # если в ишуере acme-challenge-type один, то его можно не указывать в аннотациях
   hosts:
   - name: chartmuseum.34.65.16.175.nip.io
     path: /
