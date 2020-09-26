@@ -8,4 +8,4 @@ spec:
   password: otuspassword # Так делать не нужно, следует использовать secret
   storage_size: 1Gi
   us2less_data: "useless info"
-adwds: 34dede
+
