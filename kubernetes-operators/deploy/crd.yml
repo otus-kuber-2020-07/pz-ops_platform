@@ -1,0 +1,115 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: mysqls.otus.homework # имя CRD должно иметь формат plural.group
+spec:
+  scope: Namespaced     # either "Namespaced" or "Cluster" (unnamespaced object such as CRD itself).
+  group: otus.homework  # Группа, отражается в поле apiVersion CR
+  versions:             # Список версий
+    - name: v1
+      served: true      # Будет ли обслуживаться API-сервером данная версия
+      storage: true     # Фиксирует  версию описания, которая будет сохраняться в etcd
+  # The kubectl tool relies on server-side output formatting. 
+  # Your cluster's API server decides which columns are shown by the kubectl get command. 
+  # You can customize these columns for a CustomResourceDefinition. 
+  # The following example adds the Spec, Replicas, and Age columns:
+  # additionalPrinterColumns:
+  # - name: Spec
+  #   type: string
+  #   description: The cron spec defining the interval a CronJob is run
+  #   jsonPath: .spec.cronSpec
+  # - name: Replicas
+  #   type: integer
+  #   description: The number of jobs launched by the CronJob
+  #   jsonPath: .spec.replicas
+  # - name: Age
+  #   type: date
+  #   jsonPath: .metadata.creationTimestamp
+  names:                # различные форматы имени объекта CR
+    kind: MySQL         # kind CR
+    # plural name to be used in the URL: /apis/<spec.group>/<spec.version>/<plural>
+    # This example a format of the URL would be: /apis/insujang.github.io/v1beta1/testresources
+    plural: mysqls      
+    singular: mysql     # signalur name to be used as an alias on the CLI and for the display
+    shortNames:
+    - ms
+    # categories is a list of grouped resources the custom resource belongs to.
+    categories:
+    - all
+  # # subresources describes the subresources for custom resources.
+  # subresources:
+  #   # status enables the status subresource.
+  #   status: {}
+  #   # scale enables the scale subresource.
+  #   scale:
+  #     # specReplicasPath defines the JSONPath inside of a custom resource that corresponds to Scale.Spec.Replicas.
+  #     specReplicasPath: .spec.replicas
+  #     # statusReplicasPath defines the JSONPath inside of a custom resource that corresponds to Scale.Status.Replicas.
+  #     statusReplicasPath: .status.replicas
+  #     # labelSelectorPath defines the JSONPath inside of a custom resource that corresponds to Scale.Status.Selector.
+  #     labelSelectorPath: .status.labelSelector
+  # By specifying OpenAPI v3.0 validation schema, we can add some restrictions on CRD objects,
+  # such like any objects with this CRD type are required to have some properties,
+  # or its pattern should be match with a regular expression, etc. [^5]
+  # This CRD requires to have two properties: "command" and "custom_property".
+  validation:
+    openAPIV3Schema:      # https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#status-subresource
+      type: object
+      required: ["apiVersion", "kind", "metadata", "spec"]            # 1
+      properties:
+        # x-kubernetes-embedded-resource: true
+        apiVersion:
+          type: string
+        kind:
+          type: string
+        metadata:
+          type: object
+          properties:
+            name:
+              type: string
+        spec:
+          type: object
+          required:                                                   # 2
+          - image
+          - database
+          - password
+          - storage_size
+          properties:
+            # x-kubernetes-int-or-string: true
+            image: 
+              type: string
+              # default: "mysql:latest"
+            database:
+              type: string
+              # pattern: "^prod_"
+            password:
+              type: string
+              # pattern: '^(\d+|\*)(/\d+)?(\s+(\d+|\*)(/\d+)?){4}$'
+              # default: "5 0 * * *"
+            storage_size:
+              type: string
+            # replicas: 
+            #   type: integer
+            #   minimum: 1
+            #   maximum: 10
+            #   default: 1
+            # some_field:   
+            #   # type: integer – non-floating-point numbers
+            #   # type: number – floating point numbers
+            #   # type: string – strings
+            #   # type: boolean – true or false
+            #   # type: date – rendered differentially as time since this timestamp.
+        # some_field:
+        #   type: object
+        #   properties:
+        #     json:
+        #       x-kubernetes-preserve-unknown-fields: true
+        #       type: object
+        #       properties:
+        #         spec:
+        #           type: object
+        #           properties:
+        #             foo:
+        #               type: string
+        #             bar:
+        #               type: string
